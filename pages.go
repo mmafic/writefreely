@@ -116,7 +116,7 @@ func defaultLandingBanner(cfg *config.Config) string {
 	if cfg.App.Federation {
 		return "# Start your blog in the fediverse"
 	}
-	return "# Start your blog"
+	return "# Start your storybin"
 }
 
 func defaultLandingBody(cfg *config.Config) string {

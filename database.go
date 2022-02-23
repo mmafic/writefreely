@@ -1678,7 +1678,7 @@ func (db *datastore) GetPublishableCollections(u *User, hostName string) (*[]Col
 	}
 
 	if len(*c) == 0 {
-		return nil, impart.HTTPError{http.StatusInternalServerError, "You don't seem to have any blogs; they might've moved to another account. Try logging out and logging into your other account."}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "You don't seem to have any storybins; they might've moved to another account. Try logging out and logging into your other account."}
 	}
 	return c, nil
 }
@@ -2133,7 +2133,7 @@ func (db *datastore) DeleteCollection(alias string, userID int64) error {
 
 	// Ensure user isn't deleting their main blog
 	if alias == username {
-		return impart.HTTPError{http.StatusForbidden, "You cannot currently delete your primary blog."}
+		return impart.HTTPError{http.StatusForbidden, "You cannot currently delete your primary storybin."}
 	}
 
 	row = db.QueryRow("SELECT id FROM collections WHERE alias = ? AND owner_id = ?", alias, userID)

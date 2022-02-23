@@ -54,7 +54,7 @@
 							<li><a href="/me/c/{{.Alias}}">Customize</a></li>
 							<li><a href="/me/c/{{.Alias}}/stats">Stats</a></li>
 							<li class="separator"><hr /></li>
-							{{if not .SingleUser}}<li><a href="/me/c/"><img class="ic-18dp" src="/img/ic_blogs_dark@2x.png" /> View Blogs</a></li>{{end}}
+							{{if not .SingleUser}}<li><a href="/me/c/"><img class="ic-18dp" src="/img/ic_blogs_dark@2x.png" /> View Storybins</a></li>{{end}}
 							<li><a href="/me/posts/"><img class="ic-18dp" src="/img/ic_list_dark@2x.png" /> View Drafts</a></li>
 						{{ else }}
 							<li><a href="/login">Log in{{if .IsProtected}} to {{.DisplayTitle}}{{end}}</a></li>
@@ -96,8 +96,8 @@
 			{{if .IsWelcome}}
 			<div id="welcome">
 				<h2>Welcome, <strong>{{.Username}}</strong>!</h2>
-				<p>This is your new blog.</p>
-				<p><a class="simple-cta" href="/#{{.Alias}}">Start writing</a>, or <a class="simple-cta" href="/me/c/{{.Alias}}">customize</a> your blog.</p>
+				<p>This is your new storybin.</p>
+				<p><a class="simple-cta" href="/#{{.Alias}}">Start writing</a>, or <a class="simple-cta" href="/me/c/{{.Alias}}">customize</a> your storybin.</p>
 				<p>Check out our <a class="simple-cta" href="https://guides.write.as/writing/?pk_campaign=welcome">writing guide</a> to see what else you can do, and <a class="simple-cta" href="/contact">get in touch</a> anytime with questions or feedback.</p>
 			</div>
 			{{end}}

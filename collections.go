@@ -1047,7 +1047,7 @@ func existingCollection(app *App, w http.ResponseWriter, r *http.Request) error 
 			log.Error("Unable to delete collection: %s", err)
 			return err
 		}
-		addSessionFlash(app, w, r, "Deleted your blog, "+collAlias+".", nil)
+		addSessionFlash(app, w, r, "Deleted your storybin, "+collAlias+".", nil)
 		return impart.HTTPError{Status: http.StatusNoContent}
 	}
 
@@ -1094,7 +1094,7 @@ func existingCollection(app *App, w http.ResponseWriter, r *http.Request) error 
 		}{}, http.StatusOK)
 	}
 
-	addSessionFlash(app, w, r, "Blog updated!", nil)
+	addSessionFlash(app, w, r, "Storybin updated!", nil)
 	return impart.HTTPError{http.StatusFound, "/me/c/" + collAlias}
 }
 
@@ -1168,7 +1168,7 @@ func handleWebCollectionUnlock(app *App, w http.ResponseWriter, r *http.Request)
 		session.Values[readReq.Alias] = true
 		err = session.Save(r, w)
 		if err != nil {
-			log.Error("Didn't save unlocked blog '%s': %v", readReq.Alias, err)
+			log.Error("Didn't save unlocked storybin '%s': %v", readReq.Alias, err)
 		}
 	}
 

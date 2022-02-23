@@ -21,7 +21,7 @@
 		
 		<header id="tools">
 			<div id="clip">
-				{{if not .SingleUser}}<h1><a href="/me/c/" title="View blogs"><img class="ic-24dp" src="/img/ic_blogs_dark@2x.png" /></a></h1>{{end}}
+				{{if not .SingleUser}}<h1><a href="/me/c/" title="View storybins"><img class="ic-24dp" src="/img/ic_blogs_dark@2x.png" /></a></h1>{{end}}
 				<nav id="target" {{if .SingleUser}}style="margin-left:0"{{end}}><ul>
 						{{if .Editing}}<li>{{if .EditCollection}}<a href="{{.EditCollection.CanonicalURL}}">{{.EditCollection.Title}}</a>{{else}}<a>Draft</a>{{end}}</li>
 						{{else}}<li class="has-submenu"><a id="publish-to"><span id="target-name">Draft</span> <img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" /></a>
@@ -33,11 +33,11 @@
 							<li class="target" id="blog-anonymous"><a href="#anonymous"><i class="material-icons md-18">description</i> <em>Draft</em></a></li>
 							<li id="user-separator" class="separator"><hr /></li>
 						{{ if .SingleUser }}
-							<li><a href="/"><i class="material-icons md-18">launch</i> View Blog</a></li>
+							<li><a href="/"><i class="material-icons md-18">launch</i> View Storybin</a></li>
 							<li><a href="/me/c/{{.Username}}"><i class="material-icons md-18">palette</i> Customize</a></li>
 							<li><a href="/me/c/{{.Username}}/stats"><i class="material-icons md-18">trending_up</i> Stats</a></li>
 						{{ else }}
-							<li><a href="/me/c/"><i class="material-icons md-18">library_books</i> View Blogs</a></li>
+							<li><a href="/me/c/"><i class="material-icons md-18">library_books</i> View Storybins</a></li>
 						{{ end }}
 							<li><a href="/me/posts/"><i class="material-icons md-18">view_list</i> View Drafts</a></li>
 							<li><a href="/me/logout"><i class="material-icons md-18">power_settings_new</i>  Log out</a></li>

@@ -22,7 +22,7 @@
 <h1 id="posts-header">Drafts</h1>
 
 {{ if .AnonymousPosts }}
-	<p>These are your draft posts. You can share them individually (without a blog) or move them to your blog when you're ready.</p>
+	<p>These are your draft posts. You can share them individually (without a storybin) or move them to your storybin when you're ready.</p>
 
 	<div id="anon-posts" class="atoms posts">
 	{{ range $el := .AnonymousPosts }}<div id="post-{{.ID}}" class="post">
@@ -33,7 +33,7 @@
 			<a class="delete action" href="/{{.ID}}" onclick="delPost(event, '{{.ID}}', true)">delete</a>
 			{{ if $.Collections }}
 			{{if gt (len $.Collections) 1}}<div class="action flat-select">
-				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this post to one of your blogs">
+				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this post to one of your storybins">
 					<option style="display:none"></option>
 					{{range $.Collections}}<option value="{{.Alias}}">{{.DisplayTitle}}</option>{{end}}
 				</select>
@@ -41,7 +41,7 @@
 				<img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" />
 			</div>{{else}}
 			{{range $.Collections}}
-			<a class="action" href="/{{$el.ID}}" title="Publish this post to your blog '{{.DisplayTitle}}'" onclick="postActions.move(this, '{{$el.ID}}', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">move to {{.DisplayTitle}}</a>
+			<a class="action" href="/{{$el.ID}}" title="Publish this post to your storybin '{{.DisplayTitle}}'" onclick="postActions.move(this, '{{$el.ID}}', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">move to {{.DisplayTitle}}</a>
 			{{end}}
 			{{end}}
 			{{ end }}
@@ -51,8 +51,8 @@
 </div>
 {{if eq (len .AnonymousPosts) 10}}<p id="load-more-p"><a href="#load">Load more...</a></p>{{end}}
 {{ else }}<div id="no-posts-published">
-	<p>Your anonymous and draft posts will show up here once you've published some. You'll be able to share them individually (without a blog) or move them to a blog when you're ready.</p>
-	{{if not .SingleUser}}<p>Alternatively, see your blogs and their posts on your <a href="/me/c/">Blogs</a> page.</p>{{end}}
+	<p>Your anonymous and draft posts will show up here once you've published some. You'll be able to share them individually (without a storybin) or move them to a storybin when you're ready.</p>
+	{{if not .SingleUser}}<p>Alternatively, see your storybins and their posts on your <a href="/me/c/">Storybins</a> page.</p>{{end}}
 
 	<p class="text-cta"><a href="{{if .SingleUser}}/me/new{{else}}/{{end}}">Start writing</a></p></div>{{ end }}
 
@@ -68,7 +68,7 @@
 	<div id="move-tmpl">
 		{{if gt (len .Collections) 1}}
 			<div class="action flat-select">
-				<select id="move-POST_ID" onchange="postActions.multiMove(this, 'POST_ID', {{if .SingleUser}}true{{else}}false{{end}})" title="Move this post to one of your blogs">
+				<select id="move-POST_ID" onchange="postActions.multiMove(this, 'POST_ID', {{if .SingleUser}}true{{else}}false{{end}})" title="Move this post to one of your storybins">
 					<option style="display:none"></option>
 					{{range .Collections}}<option value="{{.Alias}}">{{.DisplayTitle}}</option>{{end}}
 				</select>
@@ -77,7 +77,7 @@
 			</div>
 		{{else}}
 			{{range .Collections}}
-				<a class="action" href="/POST_ID" title="Publish this post to your blog '{{.DisplayTitle}}'" onclick="postActions.move(this, 'POST_ID', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">move to {{.DisplayTitle}}</a>
+				<a class="action" href="/POST_ID" title="Publish this post to your storybin '{{.DisplayTitle}}'" onclick="postActions.move(this, 'POST_ID', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">move to {{.DisplayTitle}}</a>
 			{{end}}
 		{{end}}
 	</div>

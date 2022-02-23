@@ -40,7 +40,7 @@ var (
 	ErrUnavailable = impart.HTTPError{http.StatusServiceUnavailable, "Service temporarily unavailable due to high load."}
 
 	ErrCollectionNotFound     = impart.HTTPError{http.StatusNotFound, "Collection doesn't exist."}
-	ErrCollectionGone         = impart.HTTPError{http.StatusGone, "This blog was unpublished."}
+	ErrCollectionGone         = impart.HTTPError{http.StatusGone, "This storybin was unpublished."}
 	ErrCollectionPageNotFound = impart.HTTPError{http.StatusNotFound, "Collection page doesn't exist."}
 	ErrPostNotFound           = impart.HTTPError{Status: http.StatusNotFound, Message: "Post not found."}
 	ErrPostBanned             = impart.HTTPError{Status: http.StatusGone, Message: "Post removed."}

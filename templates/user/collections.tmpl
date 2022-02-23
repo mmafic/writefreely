@@ -10,7 +10,7 @@
 {{if .Silenced}}
 	{{template "user-silenced"}}
 {{end}}
-<h1>Blogs</h1>
+<h1>Storybins</h1>
 <ul class="atoms collections">
 	{{range $i, $el := .Collections}}<li class="collection">
 		<div class="row lineitem">
@@ -28,7 +28,7 @@
 		{{if not .NewBlogsDisabled}}
 		<form method="POST" action="/api/collections" id="new-collection-form" onsubmit="return createCollection()">
 			<h4>
-				<input type="text" name="title" placeholder="Blog name" id="blog-name">
+				<input type="text" name="title" placeholder="Storybin name" id="blog-name">
 				<input type="hidden" name="web" value="true" />
 				<input type="submit" value="Create" id="create-collection-btn">
 			</h4>
@@ -36,7 +36,7 @@
 		{{end}}
 	</li>
 </ul>
-{{if not .NewBlogsDisabled}}<p style="margin-top:0"><a id="new-collection" href="#new-collection">New blog</a></p>{{end}}
+{{if not .NewBlogsDisabled}}<p style="margin-top:0"><a id="new-collection" href="#new-collection">New storybin</a></p>{{end}}
 
 </div>
 
@@ -100,7 +100,7 @@ function createCollection() {
 			return;
 		}
 		// Hide form
-		this.textContent = "New blog";
+		this.textContent = "New storybin";
 		collForm.style.display = 'none';
 	});
 	if (location.hash == '#new-collection' || location.hash == '#new') {

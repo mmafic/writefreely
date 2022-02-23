@@ -834,7 +834,7 @@ func viewCollections(app *App, u *User, w http.ResponseWriter, r *http.Request) 
 		NewBlogsDisabled bool
 		Silenced         bool
 	}{
-		UserPage:         NewUserPage(app, r, u, u.Username+"'s Blogs", f),
+		UserPage:         NewUserPage(app, r, u, u.Username+"'s Storybins", f),
 		Collections:      c,
 		UsedCollections:  int(uc),
 		NewBlogsDisabled: !app.cfg.App.CanCreateBlogs(uc),

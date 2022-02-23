@@ -112,8 +112,8 @@ select {
 		</div>
 		<div class="features row">
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}><label for="default_visibility">
-					Default blog visibility
-					<p>The default setting for new accounts and blogs.</p>
+					Default storybin visibility
+					<p>The default setting for new accounts and storybins.</p>
 				</label></div>
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}>
 				<select name="default_visibility" id="default_visibility">
@@ -125,7 +125,7 @@ select {
 		</div>
 		<div class="features row">
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}><label for="max_blogs">
-					Maximum Blogs per User
+					Maximum Storybins per User
 					<p>Keep things simple by setting this to <strong>1</strong>, unlimited by setting to <strong>0</strong>, or pick another amount.</p>
 				</label></div>
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}><input type="number" name="max_blogs" id="max_blogs" class="inline" min="0" value="{{.Config.MaxBlogs}}"/></div>
@@ -147,7 +147,7 @@ select {
 		<div class="features row">
 			<div><label for="monetization">
 					Monetization
-					<p>Enable blogs on this site to receive micro&shy;pay&shy;ments from readers via <a target="wm" href="https://webmonetization.org/">Web Monetization</a>.</p>
+					<p>Enable storybins on this site to receive micro&shy;pay&shy;ments from readers via <a target="wm" href="https://webmonetization.org/">Web Monetization</a>.</p>
 				</label></div>
 			<div><input type="checkbox" name="monetization" id="monetization" {{if .Config.Monetization}}checked="checked"{{end}} /></div>
 		</div>

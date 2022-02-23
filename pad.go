@@ -51,7 +51,7 @@ func handleViewPad(app *App, w http.ResponseWriter, r *http.Request) error {
 	if appData.User != nil {
 		appData.Blogs, err = app.db.GetPublishableCollections(appData.User, app.cfg.App.Host)
 		if err != nil {
-			log.Error("Unable to get user's blogs for Pad: %v", err)
+			log.Error("Unable to get user's storybins for Pad: %v", err)
 		}
 		appData.Silenced, err = app.db.IsUserSilenced(appData.User.ID)
 		if err != nil {
