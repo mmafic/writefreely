@@ -67,11 +67,11 @@ input.copy-text {
 			<td>{{.User.CreatedFriendly}}</td>
 		</tr>
 		<tr>
-			<th>Total Posts</th>
+			<th>Total Stories</th>
 			<td>{{.TotalPosts}}</td>
 		</tr>
 		<tr>
-			<th>Last Post</th>
+			<th>Last Story</th>
 			<td>{{if .LastPost}}{{.LastPost}}{{else}}Never{{end}}</td>
 		</tr>
 		<tr>
@@ -129,11 +129,11 @@ input.copy-text {
 			<td>{{.Views}}</td>
 		</tr>
 		<tr>
-			<th>Posts</th>
+			<th>Stories</th>
 			<td>{{.TotalPosts}}</td>
 		</tr>
 		<tr>
-			<th>Last Post</th>
+			<th>Last Story</th>
 			<td>{{if .LastPost}}{{.LastPost}}{{else}}Never{{end}}</td>
 		</tr>
 		{{if $.Config.Federation}}
@@ -199,7 +199,7 @@ function confirmDeletion() {
 }
 
 function confirmSilence() {
-	return confirm("Silence this user? They'll still be able to log in and access their posts, but no one else will be able to see them anymore. You can reverse this decision at any time.");
+	return confirm("Silence this user? They'll still be able to log in and access their stories, but no one else will be able to see them anymore. You can reverse this decision at any time.");
 }
 
 	form = document.getElementById("reset-form");

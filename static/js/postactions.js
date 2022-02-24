@@ -35,7 +35,7 @@ var postActions = function() {
 								if (typeof singleUser !== 'undefined' && singleUser) {
 									draftPre = "d/";
 								}
-								$article.innerHTML = '<p><a href="/'+draftPre+resp.data[i].post.id+'">Unpublished post</a>.</p>';
+								$article.innerHTML = '<p><a href="/'+draftPre+resp.data[i].post.id+'">Unpublished story</a>.</p>';
 							} else {
 								$article.innerHTML = '<p>Moved to <a style="font-weight:bold" href="'+newPostURL+'">'+lbl+'</a>.</p>';
 							}
@@ -96,7 +96,7 @@ var postActions = function() {
 								if (typeof singleUser !== 'undefined' && singleUser) {
 									draftPre = "d/";
 								}
-								$article.innerHTML = '<p><a href="/'+draftPre+resp.data[i].post.id+'">Unpublished post</a>.</p>';
+								$article.innerHTML = '<p><a href="/'+draftPre+resp.data[i].post.id+'">Unpublished story</a>.</p>';
 							} else {
 								$article.innerHTML = '<p>Moved to <a style="font-weight:bold" href="'+newPostURL+'">'+lbl+'</a>.</p>';
 							}

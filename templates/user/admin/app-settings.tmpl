@@ -106,7 +106,7 @@ select {
 		<div class="features row">
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}><label for="local_timeline">
 					Reader
-					<p>Show a feed of user posts for anyone who chooses to share there.</p>
+					<p>Show a feed of user stories for anyone who chooses to share there.</p>
 				</label></div>
 			<div{{if .Config.SingleUser}} class="invisible"{{end}}><input type="checkbox" name="local_timeline" id="local_timeline" {{if .Config.LocalTimeline}}checked="checked"{{end}} /></div>
 		</div>
@@ -133,14 +133,14 @@ select {
 		<div class="features row">
 			<div><label for="federation">
 					Federation
-					<p>Enable accounts on this site to propagate their posts via the ActivityPub protocol.</p>
+					<p>Enable accounts on this site to propagate their stories via the ActivityPub protocol.</p>
 				</label></div>
 			<div><input type="checkbox" name="federation" id="federation" {{if .Config.Federation}}checked="checked"{{end}} /></div>
 		</div>
 		<div class="features row">
 			<div><label for="public_stats">
 					Public Stats
-					<p>Publicly display the number of users and posts on your <strong>About</strong> page.</p>
+					<p>Publicly display the number of users and stories on your <strong>About</strong> page.</p>
 				</label></div>
 			<div><input type="checkbox" name="public_stats" id="public_stats" {{if .Config.PublicStats}}checked="checked"{{end}} /></div>
 		</div>
