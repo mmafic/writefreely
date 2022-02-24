@@ -55,14 +55,14 @@
 						{{if and .Chorus (eq .MaxBlogs 1)}}<a href="/{{.Username}}/"{{if eq .Path (printf "/%s/" .Username)}} class="selected"{{end}}>My Posts</a>{{end}}
 						{{if not .DisableDrafts}}<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Drafts</a>{{end}}
 							{{ end }}
-						{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">Reader</a>{{end}}
+						{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">All Stories</a>{{end}}
 						{{if and (and (and .Chorus .OpenRegistration) (not .Username)) (or (not .Private) (ne .Landing ""))}}<a href="/signup"{{if eq .Path "/signup"}} class="selected"{{end}}>Sign up</a>{{end}}
 						{{if .Username}}<a href="/me/logout">Log out</a>{{else}}<a href="/login">Log in</a>{{end}}
 						{{ end }}
 					{{else}}
 						<a href="/me/c/"{{if eq .Path "/me/c/"}} class="selected"{{end}}>Storybins</a>
 						{{if not .DisableDrafts}}<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Drafts</a>{{end}}
-						{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">Reader</a>{{end}}
+						{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">All Stories</a>{{end}}
 					{{end}}
 				</nav>
 			</nav>
