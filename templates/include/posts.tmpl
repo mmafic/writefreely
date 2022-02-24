@@ -13,7 +13,7 @@
 			{{if $.CanPin}}<a class="user hidden pin action" href="/{{$.Alias}}/{{.Slug.String}}/pin" onclick="pinPost(event, '{{.ID}}', '{{.Slug.String}}', '{{.PlainDisplayTitle}}')">pin</a>{{end}}
 			<a class="user hidden delete action" onclick="delPost(event, '{{.ID}}')" href="/{{$.Alias}}/{{.Slug.String}}/delete">delete</a>
 			{{if gt (len $.Collections) 1}}<div class="user hidden action flat-select">
-				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this post to another storybin">
+				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this story to another storybin">
 					<option style="display:none"></option>
 					<option value="|anonymous|" style="font-style:italic">Draft</option>
 					{{range $.Collections}}{{if ne .Alias $.Alias}}<option value="{{.Alias}}">{{.DisplayTitle}}</option>{{end}}{{end}}
@@ -40,7 +40,7 @@
 		{{if $.CanPin}}<a class="user hidden pin action" href="/{{if not $.SingleUser}}{{$.Alias}}/{{end}}{{.Slug.String}}/pin" onclick="pinPost(event, '{{.ID}}', '{{.Slug.String}}', '{{.PlainDisplayTitle}}')">pin</a>{{end}}
 		<a class="user hidden delete action" onclick="delPost(event, '{{.ID}}')" href="/{{$.Alias}}/{{.Slug.String}}/delete">delete</a>
 		{{if gt (len $.Collections) 1}}<div class="user hidden action flat-select">
-			<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this post to another storybin">
+			<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this story to another storybin">
 				<option style="display:none"></option>
 				<option value="|anonymous|" style="font-style:italic">Draft</option>
 				{{range $.Collections}}{{if ne .Alias $.Alias}}<option value="{{.Alias}}">{{.DisplayTitle}}</option>{{end}}{{end}}

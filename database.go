@@ -14,11 +14,12 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/writeas/web-core/silobridge"
-	wf_db "github.com/writefreely/writefreely/db"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/writeas/web-core/silobridge"
+	wf_db "github.com/writefreely/writefreely/db"
 
 	"github.com/guregu/null"
 	"github.com/guregu/null/zero"
@@ -1357,7 +1358,7 @@ func (db *datastore) DispersePosts(userID int64, postIDs []string) (*[]ClaimPost
 		}
 		if fullPost.OwnerID.Int64 != userID {
 			r.Code = http.StatusConflict
-			r.ErrorMessage = "Post is already owned by someone else."
+			r.ErrorMessage = "Story is already owned by someone else."
 			r.ID = postID
 			res = append(res, r)
 			continue
@@ -1410,11 +1411,11 @@ func (db *datastore) ClaimPosts(cfg *config.Config, userID int64, collAlias stri
 
 		// Perform post validation
 		if p.ID == "" {
-			r.ErrorMessage = "Missing post ID `id`. "
+			r.ErrorMessage = "Missing story ID `id`. "
 		}
 		if _, ok := postClaimReqs[p.ID]; ok {
 			r.Code = 429
-			r.ErrorMessage = "You've already tried claiming this post."
+			r.ErrorMessage = "You've already tried claiming this story."
 			r.ID = p.ID
 			res = append(res, r)
 			continue
@@ -1425,7 +1426,7 @@ func (db *datastore) ClaimPosts(cfg *config.Config, userID int64, collAlias stri
 		if !canCollect && p.Token == "" {
 			// TODO: ensure post isn't owned by anyone else when a valid modify
 			// token is given.
-			r.ErrorMessage += "Missing post Edit Token `token`."
+			r.ErrorMessage += "Missing story Edit Token `token`."
 		}
 		if r.ErrorMessage != "" {
 			// Post validate failed
@@ -1542,7 +1543,7 @@ func (db *datastore) ClaimPosts(cfg *config.Config, userID int64, collAlias stri
 		}
 		if fullPost.OwnerID.Int64 != userID {
 			r.Code = http.StatusConflict
-			r.ErrorMessage = "Post is already owned by someone else."
+			r.ErrorMessage = "Story is already owned by someone else."
 			r.ID = p.ID
 			res = append(res, r)
 			continue
@@ -1580,7 +1581,7 @@ func (db *datastore) UpdatePostPinState(pinned bool, postID string, collID, owne
 		_, err = db.Exec("UPDATE posts SET pinned_position = NULL WHERE id = ?", postID)
 	}
 	if err != nil {
-		log.Error("Unable to update pinned post: %v", err)
+		log.Error("Unable to update pinned story: %v", err)
 		return err
 	}
 	return nil
@@ -1611,7 +1612,7 @@ func (db *datastore) GetPinnedPosts(coll *CollectionObj, includeFuture bool) (*[
 	rows, err := db.Query("SELECT id, slug, title, "+db.clip("content", 80)+", pinned_position FROM posts WHERE collection_id = ? AND pinned_position IS NOT NULL "+timeCondition+" ORDER BY pinned_position ASC", coll.ID)
 	if err != nil {
 		log.Error("Failed selecting pinned posts: %v", err)
-		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve pinned posts."}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve pinned stories."}
 	}
 	defer rows.Close()
 
@@ -1777,7 +1778,7 @@ func (db *datastore) GetTopPosts(u *User, alias string, hostName string) (*[]Pub
 	rows, err := db.Query("SELECT p.id, p.slug, p.view_count, p.title, c.alias, c.title, c.description, c.view_count FROM posts p LEFT JOIN collections c ON p.collection_id = c.id WHERE p.owner_id = ?"+where+" ORDER BY p.view_count DESC, created DESC LIMIT 25", params...)
 	if err != nil {
 		log.Error("Failed selecting from posts: %v", err)
-		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user top posts."}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user top stories."}
 	}
 	defer rows.Close()
 
@@ -1836,7 +1837,7 @@ func (db *datastore) GetAnonymousPosts(u *User, page int) (*[]PublicPost, error)
 	rows, err := db.Query("SELECT id, view_count, title, created, updated, content FROM posts WHERE owner_id = ? AND collection_id IS NULL ORDER BY created DESC"+limitStr, u.ID)
 	if err != nil {
 		log.Error("Failed selecting from posts: %v", err)
-		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user anonymous posts."}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user anonymous stories."}
 	}
 	defer rows.Close()
 
@@ -1864,7 +1865,7 @@ func (db *datastore) GetUserPosts(u *User) (*[]PublicPost, error) {
 	rows, err := db.Query("SELECT p.id, p.slug, p.view_count, p.title, p.created, p.updated, p.content, p.text_appearance, p.language, p.rtl, c.alias, c.title, c.description, c.view_count FROM posts p LEFT JOIN collections c ON collection_id = c.id WHERE p.owner_id = ? ORDER BY created ASC", u.ID)
 	if err != nil {
 		log.Error("Failed selecting from posts: %v", err)
-		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user posts."}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve user stories."}
 	}
 	defer rows.Close()
 

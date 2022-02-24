@@ -361,16 +361,16 @@ func handleViewPost(app *App, w http.ResponseWriter, r *http.Request) error {
 
 		// Output the error in the correct format
 		if isJSON {
-			content = "{\"error\": \"Post not found.\"}"
+			content = "{\"error\": \"Story not found.\"}"
 		} else if isRaw {
-			content = "Post not found."
+			content = "Story not found."
 		} else {
 			return ErrPostNotFound
 		}
 	case err != nil:
 		found = false
 
-		log.Error("Post loading err: %s\n", err)
+		log.Error("Story loading err: %s\n", err)
 		return ErrInternalGeneral
 	default:
 		found = true
@@ -429,11 +429,11 @@ func handleViewPost(app *App, w http.ResponseWriter, r *http.Request) error {
 		gone = true
 
 		if isJSON {
-			content = "{\"error\": \"Post was unpublished.\"}"
+			content = "{\"error\": \"Story was unpublished.\"}"
 		} else if isCSS {
 			content = ""
 		} else if isRaw {
-			content = "Post was unpublished."
+			content = "Story was unpublished."
 		} else {
 			return ErrPostUnpublished
 		}
@@ -818,7 +818,7 @@ func deletePost(app *App, w http.ResponseWriter, r *http.Request) error {
 		err = app.db.QueryRow("SELECT 1 FROM posts WHERE id = ?", friendlyID).Scan(&dummy)
 		switch {
 		case err == sql.ErrNoRows:
-			return impart.HTTPError{http.StatusNotFound, "Post not found."}
+			return impart.HTTPError{http.StatusNotFound, "Story not found."}
 		}
 		err = app.db.QueryRow("SELECT 1 FROM posts WHERE id = ? AND owner_id IS NULL", friendlyID).Scan(&dummy)
 		switch {
@@ -826,7 +826,7 @@ func deletePost(app *App, w http.ResponseWriter, r *http.Request) error {
 			// Post already has an owner. This could provide a bad experience
 			// for the user, but it's more important to ensure data isn't lost
 			// unexpectedly. So prevent deletion via token.
-			return impart.HTTPError{http.StatusConflict, "This post belongs to some user (hopefully yours). Please log in and delete it from that user's account."}
+			return impart.HTTPError{http.StatusConflict, "This story belongs to some user (hopefully yours). Please log in and delete it from that user's account."}
 		}
 		res, err = app.db.Exec("DELETE FROM posts WHERE id = ? AND modify_token = ? AND owner_id IS NULL", friendlyID, editToken)
 	} else if accessToken != "" || u != nil {
@@ -895,7 +895,7 @@ func deletePost(app *App, w http.ResponseWriter, r *http.Request) error {
 			t.Rollback()
 			log.Error("No rows affected! Rolling back")
 		}
-		return impart.HTTPError{http.StatusForbidden, "Post not found, or you're not the owner."}
+		return impart.HTTPError{http.StatusForbidden, "Story not found, or you're not the owner."}
 	}
 	if t != nil {
 		t.Commit()
@@ -1492,7 +1492,7 @@ Are you sure it was ever here?`,
 
 	// Check if post has been unpublished
 	if p.Content == "" && p.Title.String == "" {
-		return impart.HTTPError{http.StatusGone, "Post was unpublished."}
+		return impart.HTTPError{http.StatusGone, "Story was unpublished."}
 	}
 
 	p.augmentContent()
@@ -1510,7 +1510,7 @@ Are you sure it was ever here?`,
 		w.Header().Set("Content-Type", fmt.Sprintf("%s; charset=utf-8", contentType))
 		if !postFound {
 			w.WriteHeader(http.StatusNotFound)
-			fmt.Fprintf(w, "Post not found.")
+			fmt.Fprintf(w, "Story not found.")
 			// TODO: return error instead, so status is correctly reflected in logs
 			return nil
 		}

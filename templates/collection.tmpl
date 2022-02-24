@@ -46,11 +46,11 @@
 					<ul>
 						{{ if .IsOwner }}
 							{{if .SingleUser}}
-							<li><a href="/me/new">New Post</a></li>
+							<li><a href="/me/new">New Story</a></li>
 							{{else}}
 							<li><a href="/#{{.Alias}}" class="write">{{.SiteName}}</a></li>
 							{{end}}
-							{{if .SimpleNav}}<li><a href="/new#{{.Alias}}">New Post</a></li>{{end}}
+							{{if .SimpleNav}}<li><a href="/new#{{.Alias}}">New Story</a></li>{{end}}
 							<li><a href="/me/c/{{.Alias}}">Customize</a></li>
 							<li><a href="/me/c/{{.Alias}}/stats">Stats</a></li>
 							<li class="separator"><hr /></li>
@@ -136,7 +136,7 @@ function delPost(e, id, owned) {
 	}
 
 	// TODO: UNDO!
-	if (window.confirm('Are you sure you want to delete this post?')) {
+	if (window.confirm('Are you sure you want to delete this story?')) {
 		// AJAX
 		deletePost(id, "", function() {
 			// Remove post from list
@@ -163,7 +163,7 @@ var deletePost = function(postID, token, callback) {
 				callback();
 			} else if (http.status == 409) {
 				$delBtn.innerHTML = 'delete';
-				alert("Post is synced to another account. Delete the post from that account instead.");
+				alert("Story is synced to another account. Delete the story from that account instead.");
 				// TODO: show "remove" button instead of "delete" now
 				// Persist that state.
 				// Have it remove the post locally only.
@@ -214,7 +214,7 @@ function pinPost(e, postID, slug, title) {
 				callback();
 			} else if (http.status == 409) {
 				$pinBtn.innerHTML = 'pin';
-				alert("Post is synced to another account. Delete the post from that account instead.");
+				alert("Story is synced to another account. Delete the story from that account instead.");
 				// TODO: show "remove" button instead of "delete" now
 				// Persist that state.
 				// Have it remove the post locally only.

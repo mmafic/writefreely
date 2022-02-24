@@ -26,7 +26,7 @@ var (
 	ErrNotLoggedIn    = impart.HTTPError{http.StatusUnauthorized, "Not logged in."}
 
 	ErrForbiddenCollection        = impart.HTTPError{http.StatusForbidden, "You don't have permission to add to this collection."}
-	ErrForbiddenEditPost          = impart.HTTPError{http.StatusForbidden, "You don't have permission to update this post."}
+	ErrForbiddenEditPost          = impart.HTTPError{http.StatusForbidden, "You don't have permission to update this story."}
 	ErrUnauthorizedEditPost       = impart.HTTPError{http.StatusUnauthorized, "Invalid editing credentials."}
 	ErrUnauthorizedGeneral        = impart.HTTPError{http.StatusUnauthorized, "You don't have permission to do that."}
 	ErrBadRequestedType           = impart.HTTPError{http.StatusNotAcceptable, "Bad requested Content-Type."}
@@ -42,10 +42,10 @@ var (
 	ErrCollectionNotFound     = impart.HTTPError{http.StatusNotFound, "Collection doesn't exist."}
 	ErrCollectionGone         = impart.HTTPError{http.StatusGone, "This storybin was unpublished."}
 	ErrCollectionPageNotFound = impart.HTTPError{http.StatusNotFound, "Collection page doesn't exist."}
-	ErrPostNotFound           = impart.HTTPError{Status: http.StatusNotFound, Message: "Post not found."}
-	ErrPostBanned             = impart.HTTPError{Status: http.StatusGone, Message: "Post removed."}
-	ErrPostUnpublished        = impart.HTTPError{Status: http.StatusGone, Message: "Post unpublished by author."}
-	ErrPostFetchError         = impart.HTTPError{Status: http.StatusInternalServerError, Message: "We encountered an error getting the post. The humans have been alerted."}
+	ErrPostNotFound           = impart.HTTPError{Status: http.StatusNotFound, Message: "Story not found."}
+	ErrPostBanned             = impart.HTTPError{Status: http.StatusGone, Message: "Story removed."}
+	ErrPostUnpublished        = impart.HTTPError{Status: http.StatusGone, Message: "Story unpublished by author."}
+	ErrPostFetchError         = impart.HTTPError{Status: http.StatusInternalServerError, Message: "We encountered an error getting the story. The humans have been alerted."}
 
 	ErrUserNotFound       = impart.HTTPError{http.StatusNotFound, "User doesn't exist."}
 	ErrRemoteUserNotFound = impart.HTTPError{http.StatusNotFound, "Remote user not found."}

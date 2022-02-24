@@ -569,7 +569,7 @@ func getVerboseAuthUser(app *App, token string, u *User, verbose bool) *AuthUser
 	if verbose {
 		posts, err := app.db.GetUserPosts(u)
 		if err != nil {
-			log.Error("Login: Unable to get user posts: %v", err)
+			log.Error("Login: Unable to get user stories: %v", err)
 		}
 		colls, err := app.db.GetCollections(u, app.cfg.App.Host)
 		if err != nil {

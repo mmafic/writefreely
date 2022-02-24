@@ -83,7 +83,7 @@ func (app *App) FetchPublicPosts() (interface{}, error) {
 	` + limit)
 	if err != nil {
 		log.Error("Failed selecting from posts: %v", err)
-		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve collection posts." + err.Error()}
+		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve collection stories." + err.Error()}
 	}
 	defer rows.Close()
 

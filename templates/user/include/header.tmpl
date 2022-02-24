@@ -8,7 +8,7 @@
 						<ul>
 							{{if .IsAdmin}}<li><a href="/admin">Admin dashboard</a></li>{{end}}
 							<li><a href="/me/settings">Account settings</a></li>
-							<li><a href="/me/import">Import posts</a></li>
+							<li><a href="/me/import">Import stories</a></li>
 							<li><a href="/me/export">Export</a></li>
 							<li class="separator"><hr /></li>
 							<li><a href="/me/logout">Log out</a></li>
@@ -22,7 +22,7 @@
 				</nav>
 			</nav>
 			<div class="right-side">
-				<a class="simple-btn" href="/me/new">New Post</a>
+				<a class="simple-btn" href="/me/new">New Story</a>
 			</div>
 		{{else}}
 			<div class="left-side">
@@ -34,7 +34,7 @@
 					<ul><li class="has-submenu"><a>{{.Username}}</a> <img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" /><ul>
 							{{if .IsAdmin}}<li><a href="/admin">Admin dashboard</a></li>{{end}}
 							<li><a href="/me/settings">Account settings</a></li>
-							<li><a href="/me/import">Import posts</a></li>
+							<li><a href="/me/import">Import stories</a></li>
 							<li><a href="/me/export">Export</a></li>
 							{{if .CanInvite}}<li><a href="/me/invites">Invite people</a></li>{{end}}
 							<li class="separator"><hr /></li>
@@ -52,7 +52,7 @@
 						{{ if not .SingleUser }}
 							{{ if .Username }}
 						{{if gt .MaxBlogs 1}}<a href="/me/c/"{{if eq .Path "/me/c/"}} class="selected"{{end}}>Storybins</a>{{end}}
-						{{if and .Chorus (eq .MaxBlogs 1)}}<a href="/{{.Username}}/"{{if eq .Path (printf "/%s/" .Username)}} class="selected"{{end}}>My Posts</a>{{end}}
+						{{if and .Chorus (eq .MaxBlogs 1)}}<a href="/{{.Username}}/"{{if eq .Path (printf "/%s/" .Username)}} class="selected"{{end}}>My Stories</a>{{end}}
 						{{if not .DisableDrafts}}<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Drafts</a>{{end}}
 							{{ end }}
 						{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">All Stories</a>{{end}}
@@ -68,7 +68,7 @@
 			</nav>
 			{{if .Username}}
 				<div class="right-side">
-					<a class="simple-btn" href="/{{if .CollAlias}}#{{.CollAlias}}{{end}}">New Post</a>
+					<a class="simple-btn" href="/{{if .CollAlias}}#{{.CollAlias}}{{end}}">New Story</a>
 				</div>
 			{{end}}
 		{{end}}

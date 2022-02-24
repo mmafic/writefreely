@@ -20,7 +20,7 @@ import (
 
 func viewImport(app *App, u *User, w http.ResponseWriter, r *http.Request) error {
 	// Fetch extra user data
-	p := NewUserPage(app, r, u, "Import Posts", nil)
+	p := NewUserPage(app, r, u, "Import Stories", nil)
 
 	c, err := app.db.GetCollections(u, app.Config().App.Host)
 	if err != nil {
@@ -183,13 +183,13 @@ func handleImport(app *App, u *User, w http.ResponseWriter, r *http.Request) err
 	}
 
 	if filesImported == filesSubmitted {
-		verb := "posts"
+		verb := "stories"
 		if filesSubmitted == 1 {
-			verb = "post"
+			verb = "story"
 		}
 		_ = addSessionFlash(app, w, r, fmt.Sprintf("SUCCESS: Import complete, %d %s imported.", filesImported, verb), nil)
 	} else if filesImported > 0 {
-		_ = addSessionFlash(app, w, r, fmt.Sprintf("INFO: %d of %d posts imported, see details below.", filesImported, filesSubmitted), nil)
+		_ = addSessionFlash(app, w, r, fmt.Sprintf("INFO: %d of %d stories imported, see details below.", filesImported, filesSubmitted), nil)
 	}
 	return impart.HTTPError{http.StatusFound, "/me/import"}
 }

@@ -97,26 +97,26 @@ textarea.section.norm {
 	<div class="option">
 		<h2>Display Format</h2>
 		<div class="section">
-			<p class="explain">Customize how your posts display on your page.
+			<p class="explain">Customize how your stories display on your page.
 			</p>
 			<ul style="list-style:none">
 				<li>
 					<label><input type="radio" name="format" id="format-blog" value="blog" {{if or (not .Format) (eq .Format "blog")}}checked="checked"{{end}} />
 						Blog
 					</label>
-					<p>Dates are shown. Latest posts listed first.</p>
+					<p>Dates are shown. Latest stories listed first.</p>
 				</li>
 				<li>
 					<label class="option-text"><input type="radio" name="format" id="format-novel" value="novel" {{if eq .Format "novel"}}checked="checked"{{end}} />
 						Novel
 					</label>
-					<p>No dates shown. Oldest posts first.</p>
+					<p>No dates shown. Oldest stories first.</p>
 				</li>
 				<li>
 					<label class="option-text"><input type="radio" name="format" id="format-notebook" value="notebook" {{if eq .Format "notebook"}}checked="checked"{{end}} />
 						Notebook
 					</label>
-					<p>No dates shown. Latest posts first.</p>
+					<p>No dates shown. Latest stories first.</p>
 				</li>
 			</ul>
 		</div>
@@ -150,9 +150,9 @@ textarea.section.norm {
 	</div>
 
 	<div class="option">
-		<h2>Post Signature</h2>
+		<h2>Story Signature</h2>
 		<div class="section">
-			<p class="explain">This content will be added to the end of every post in this storybin, as if it were part of the post itself. Markdown, HTML, and shortcodes are allowed.</p>
+			<p class="explain">This content will be added to the end of every story in this storybin, as if it were part of the story itself. Markdown, HTML, and shortcodes are allowed.</p>
 			<textarea id="signature" class="section norm" name="signature">{{.Signature}}</textarea>
 		</div>
 	</div>
@@ -179,7 +179,7 @@ textarea.section.norm {
 		<div id="modal-delete" class="modal">
 			<h2>Are you sure you want to delete this storybin?</h2>
 			<div class="body short">
-				<p style="text-align:left">This will permanently erase <strong>{{.DisplayTitle}}</strong> ({{.FriendlyHost}}/{{.Alias}}) from the internet. Any posts in this storybin will be saved and made into drafts (found on your <a href="/me/posts/">Drafts</a> page).</p>
+				<p style="text-align:left">This will permanently erase <strong>{{.DisplayTitle}}</strong> ({{.FriendlyHost}}/{{.Alias}}) from the internet. Any stories in this storybin will be saved and made into drafts (found on your <a href="/me/posts/">Drafts</a> page).</p>
 				<p>If you're sure you want to delete this storybin, enter its name in the box below and press <strong>Delete</strong>.</p>
 
 				<ul id="delete-errors" class="errors"></ul>

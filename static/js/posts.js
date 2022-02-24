@@ -41,7 +41,7 @@ function delPost(e, id, owned) {
 	}
 
 	// TODO: UNDO!
-	if (window.confirm('Are you sure you want to delete this post?')) {
+	if (window.confirm('Are you sure you want to delete this story?')) {
 		var token;
 		for (var i=0; i<posts.length; i++) {
 			if (posts[i].id == id) {
@@ -142,7 +142,7 @@ var localPosts = function() {
 	};
 	var DeletePostLocal = function(e, el, id) {
 		e.preventDefault();
-		if (!window.confirm('Are you sure you want to delete this post?')) {
+		if (!window.confirm('Are you sure you want to delete this story?')) {
 			return;
 		}
 		var i = findPostIdx(id);
@@ -205,7 +205,7 @@ var createPostEl = function(post, owned) {
 	$post.innerHTML += '<h4><date>' + posted + '</date> <a class="action" href="/pad/' + post.id + '">edit' + (hasDraft ? 'ed' : '') + '</a> <a class="delete action" href="/' + post.id + '" onclick="delPost(event, \'' + post.id + '\'' + (owned === true ? ', true' : '') + ')">delete</a> '+movePostHTML(post.id)+'</h4>';
 
 	if (post.error) {
-		$post.innerHTML += '<p class="error"><strong>Sync error:</strong> ' + post.error + ' <nav><a href="#" onclick="localPosts.dismissError(event, this)">dismiss</a> <a href="#" onclick="localPosts.deletePost(event, this, \''+post.id+'\')">remove post</a></nav></p>';
+		$post.innerHTML += '<p class="error"><strong>Sync error:</strong> ' + post.error + ' <nav><a href="#" onclick="localPosts.dismissError(event, this)">dismiss</a> <a href="#" onclick="localPosts.deletePost(event, this, \''+post.id+'\')">remove story</a></nav></p>';
 	}
 	if (post.summary) {
 		// TODO: switch to using p.summary, after ensuring it matches summary generated on the backend.
@@ -297,7 +297,7 @@ var deletePost = function(postID, token, callback) {
 				callback();
 			} else if (http.status == 409) {
 				$delBtn.innerHTML = 'delete';
-				alert("Post is synced to another account. Delete the post from that account instead.");
+				alert("Story is synced to another account. Delete the story from that account instead.");
 				// TODO: show "remove" button instead of "delete" now
 				// Persist that state.
 				// Have it remove the post locally only.
@@ -317,11 +317,11 @@ var displayNoPosts = function() {
 		$posts.el.innerHTML = '';
 		return;
 	}
-	var cta = '<a href="/pad">Create a post</a> and it\'ll appear here.';
+	var cta = '<a href="/pad">Create a story</a> and it\'ll appear here.';
 	if (hasWritten) {
-		cta = '<a href="/pad">Finish your post</a> and it\'ll appear here.';
+		cta = '<a href="/pad">Finish your story</a> and it\'ll appear here.';
 	}
-	H.getEl("posts").el.innerHTML = '<p class="status">No posts created yet.</p><p class="status">' + cta + '</p>';
+	H.getEl("posts").el.innerHTML = '<p class="status">No stories created yet.</p><p class="status">' + cta + '</p>';
 };
 
 if (posts.length == 0) {
@@ -329,4 +329,3 @@ if (posts.length == 0) {
 } else {
 	initialListPop();
 }
-

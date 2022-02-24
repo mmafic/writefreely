@@ -2,7 +2,7 @@
 <html>
 	<head>
 
-		<title>{{if .Editing}}Editing {{if .Post.Title}}{{.Post.Title}}{{else}}{{.Post.Id}}{{end}}{{else}}New Post{{end}} &mdash; {{.SiteName}}</title>
+		<title>{{if .Editing}}Editing {{if .Post.Title}}{{.Post.Title}}{{else}}{{.Post.Id}}{{end}}{{else}}New Story{{end}} &mdash; {{.SiteName}}</title>
 		
 		<link rel="stylesheet" type="text/css" href="/css/write.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,13 +17,13 @@
 
 {{end}}{{.Post.Content}}</textarea>
 
-		<div class="alert success hidden" id="edited-elsewhere">This post has been updated elsewhere since you last published! <a href="#" id="erase-edit">Delete draft and reload</a>.</div>
+		<div class="alert success hidden" id="edited-elsewhere">This story has been updated elsewhere since you last published! <a href="#" id="erase-edit">Delete draft and reload</a>.</div>
 		
 		<header id="tools">
 			<div id="clip">
 				{{if not .SingleUser}}<h1>{{if .Chorus}}<a href="/" title="Home">{{else}}<a href="/me/c/" title="View storybins">{{end}}{{.SiteName}}</a></h1>{{end}}
 				<nav id="target" {{if .SingleUser}}style="margin-left:0"{{end}}><ul>
-						<li>{{if .Blogs}}<a href="{{$c := index .Blogs 0}}{{$c.CanonicalURL}}">My Posts</a>{{else}}<a>Draft</a>{{end}}</li>
+						<li>{{if .Blogs}}<a href="{{$c := index .Blogs 0}}{{$c.CanonicalURL}}">My Stories</a>{{else}}<a>Draft</a>{{end}}</li>
 				</ul></nav>
 				<span id="wc" class="hidden if-room room-4">0 words</span>
 			</div>
@@ -96,7 +96,7 @@
 		var publish = function(content, font) {
 			{{if and (and .Post.Id (not .Post.Slug)) (not .User)}}
 			if (!token) {
-				alert("You don't have permission to update this post.");
+				alert("You don't have permission to update this story.");
 				return;
 			}
 			{{end}}

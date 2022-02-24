@@ -4,15 +4,15 @@
 		{{if gt .CurrentPage 1}}<link rel="prev" href="{{.PrevPageURL .CurrentPage}}">{{end}}
 		{{if lt .CurrentPage .TotalPages}}<link rel="next" href="{{.NextPageURL .CurrentPage}}">{{end}}
 
-		<meta name="description" content="Read the latest posts from {{.SiteName}}.">
+		<meta name="description" content="Read the latest stories from {{.SiteName}}.">
 		<meta itemprop="name" content="{{.SiteName}} Reader">
-		<meta itemprop="description" content="Read the latest posts from {{.SiteName}}.">
+		<meta itemprop="description" content="Read the latest stories from {{.SiteName}}.">
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="{{.SiteName}} Reader">
-		<meta name="twitter:description" content="Read the latest posts from {{.SiteName}}.">
+		<meta name="twitter:description" content="Read the latest stories from {{.SiteName}}.">
 		<meta property="og:title" content="{{.SiteName}} Reader" />
 		<meta property="og:type" content="object" />
-		<meta property="og:description" content="Read the latest posts from {{.SiteName}}." />
+		<meta property="og:description" content="Read the latest stories from {{.SiteName}}." />
 
 		<style>
 		.heading h1 {
@@ -84,7 +84,7 @@
 {{define "content"}}
 	<div class="content-container snug">
 		<h1>{{.ContentTitle}}</h1>
-		<p{{if .SelTopic}} style="text-align:center"{{end}}>{{if .SelTopic}}#{{.SelTopic}} posts{{else}}{{.Content}}{{end}}</p>
+		<p{{if .SelTopic}} style="text-align:center"{{end}}>{{if .SelTopic}}#{{.SelTopic}} stories{{else}}{{.Content}}{{end}}</p>
 	</div>
 		<div id="wrapper">
 		{{ if gt (len .Posts) 0 }}
@@ -112,7 +112,7 @@
 		</section>
 		{{ else }}
 		<div class="attention-box">
-			<p>No posts here yet!</p>
+			<p>No stories here yet!</p>
 		</div>
 		{{ end }}
 
