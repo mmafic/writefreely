@@ -881,6 +881,7 @@ func viewEditCollection(app *App, u *User, w http.ResponseWriter, r *http.Reques
 }
 
 func updateSettings(app *App, w http.ResponseWriter, r *http.Request) error {
+	return impart.HTTPError{http.StatusBadRequest, "settings cannot be updated"}
 	reqJSON := IsJSON(r)
 
 	var s userSettings
