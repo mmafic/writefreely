@@ -12,13 +12,14 @@
 	</head>
 	<body {{template "body-attrs" .}}>
 		<div id="overlay"></div>
-		<header>
+		<header style="display: flex; align-items: center; height: 31px;">
 			{{ if .Chorus }}<nav id="full-nav">
 				<div class="left-side">
 					<h2><a href="/">{{.SiteName}}</a></h2>
 				</div>
 			{{ else }}
-				<h2><a href="/">{{.SiteName}}</a></h2>
+				<img src="/favicon.ico" style="position: absolute;">
+				<h2><a href="/" style="margin-left: 50px;">{{.SiteName}}</a></h2>
 			{{ end }}
 			{{if not .SingleUser}}
 			<nav id="user-nav">
