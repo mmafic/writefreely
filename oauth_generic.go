@@ -135,6 +135,7 @@ func (c genericOauthClient) inspectOauthAccessToken(ctx context.Context, accessT
 		return nil, fmt.Errorf("no UserID (`%s`) value returned", c.MapUserID)
 	}
 	inspectResponse.Username, _ = genericInterface[c.MapUsername].(string)
+	inspectResponse.Username = strings.ToLower(inspectResponse.Username)
 	inspectResponse.DisplayName, _ = genericInterface[c.MapDisplayName].(string)
 	inspectResponse.Email, _ = genericInterface[c.MapEmail].(string)
 

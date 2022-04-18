@@ -20,6 +20,7 @@ import (
 )
 
 func handleWebSignup(app *App, w http.ResponseWriter, r *http.Request) error {
+	return impart.HTTPError{http.StatusBadRequest, "Signup Disabled"}
 	reqJSON := IsJSON(r)
 
 	// Get params

@@ -116,15 +116,15 @@ func (h oauthHandler) viewOauthSignup(app *App, w http.ResponseWriter, r *http.R
 		}
 	}
 	newUser := &User{
-		Username:   r.FormValue(oauthParamUsername),
+		Username:   tp.TokenUsername,
 		HashedPass: hashedPass,
 		HasPass:    hasPass,
 		Email:      prepareUserEmail(r.FormValue(oauthParamEmail), h.EmailKey),
 		Created:    time.Now().Truncate(time.Second).UTC(),
 	}
-	displayName := r.FormValue(oauthParamAlias)
+	displayName := tp.TokenAlias
 	if len(displayName) == 0 {
-		displayName = r.FormValue(oauthParamUsername)
+		displayName = tp.TokenUsername
 	}
 
 	err = h.DB.CreateUser(h.Config, newUser, displayName, "")
@@ -152,17 +152,6 @@ func (h oauthHandler) viewOauthSignup(app *App, w http.ResponseWriter, r *http.R
 }
 
 func (h oauthHandler) validateOauthSignup(r *http.Request) error {
-	username := r.FormValue(oauthParamUsername)
-	if len(username) < h.Config.App.MinUsernameLen {
-		return impart.HTTPError{Status: http.StatusBadRequest, Message: "Username is too short."}
-	}
-	if len(username) > 100 {
-		return impart.HTTPError{Status: http.StatusBadRequest, Message: "Username is too long."}
-	}
-	collTitle := r.FormValue(oauthParamAlias)
-	if len(collTitle) == 0 {
-		collTitle = username
-	}
 	email := r.FormValue(oauthParamEmail)
 	if len(email) > 0 {
 		parts := strings.Split(email, "@")
