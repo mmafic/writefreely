@@ -78,6 +78,10 @@
 		body#collection article {
 			max-width: 40em !important;
 		}
+		.info-block {
+			display: flex;
+			justify-content: space-between;
+		}
 		</style>
 {{end}}
 {{define "body-attrs"}}id="collection"{{end}}
@@ -95,7 +99,10 @@
 					{{- if .IsPaid}}{{template "paid-badge" .}}{{end -}}
 					<a href="{{if .Slug.String}}{{.Collection.CanonicalURL}}{{.Slug.String}}{{else}}{{.CanonicalURL .Host}}.md{{end}}" itemprop="url" class="u-url">{{.PlainDisplayTitle}}</a>
 				</h2>
-				<time class="dt-published" datetime="{{.Created8601}}" pubdate itemprop="datePublished" content="{{.Created}}">{{if not .Title.String}}<a href="{{.Collection.CanonicalURL}}{{.Slug.String}}" itemprop="url">{{end}}{{.DisplayDate}}{{if not .Title.String}}</a>{{end}}</time>
+				<div class="info-block">
+					<time class="dt-published" datetime="{{.Created8601}}" pubdate itemprop="datePublished" content="{{.Created}}">{{if not .Title.String}}<a href="{{.Collection.CanonicalURL}}{{.Slug.String}}" itemprop="url">{{end}}{{.DisplayDate}}{{if not .Title.String}}</a>{{end}}</time>
+				{{if .RedditUrl}}<a target=_blank href="https://www.{{.RedditUrl}}">{{.RedditUrl}}</a>{{end}}
+				</div>
 			{{- else -}}
 				<h2 class="post-title" itemprop="name">
 					{{- if .IsPaid}}{{template "paid-badge" .}}{{end -}}

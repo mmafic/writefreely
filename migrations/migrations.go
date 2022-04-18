@@ -66,6 +66,8 @@ var migrations = []Migration{
 	New("support oauth via invite", oauthInvites),                   // V7 -> V8 (v0.12.0)
 	New("optimize drafts retrieval", optimizeDrafts),                // V8 -> V9
 	New("support post signatures", supportPostSignatures),           // V9 -> V10
+	New("add reddit url to posts", addRedditUrlColumnToPosts),       // V10 -> V10.1
+	New("allow longer posts", allowLongerPosts),                     // V10.1 -> V10.2
 }
 
 // CurrentVer returns the current migration version the application is on

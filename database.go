@@ -674,18 +674,21 @@ func (db *datastore) CreatePost(userID, collID int64, post *SubmittedPost) (*Pos
 		}
 	}
 
-	stmt, err := db.Prepare("INSERT INTO posts (id, slug, title, content, text_appearance, language, rtl, privacy, owner_id, collection_id, created, updated, view_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + db.now() + ", ?)")
+	redditUrl := post.GenerateRedditUrl()
+	contentTrunc := post.TruncateContent()
+
+	stmt, err := db.Prepare("INSERT INTO posts (id, slug, title, content, text_appearance, language, rtl, privacy, owner_id, collection_id, created, updated, view_count, reddit_url, content_trunc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + db.now() + ", ?, ?, ?)")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(friendlyID, slug, post.Title, post.Content, appearance, post.Language, post.IsRTL, 0, ownerID, ownerCollID, created, 0)
+	_, err = stmt.Exec(friendlyID, slug, post.Title, post.Content, appearance, post.Language, post.IsRTL, 0, ownerID, ownerCollID, created, 0, redditUrl, contentTrunc)
 	if err != nil {
 		if db.isDuplicateKeyErr(err) {
 			// Duplicate entry error; try a new slug
 			// TODO: make this a little more robust
 			slug = sql.NullString{id.GenSafeUniqueSlug(slug.String), true}
-			_, err = stmt.Exec(friendlyID, slug, post.Title, post.Content, appearance, post.Language, post.IsRTL, 0, ownerID, ownerCollID, created, 0)
+			_, err = stmt.Exec(friendlyID, slug, post.Title, post.Content, appearance, post.Language, post.IsRTL, 0, ownerID, ownerCollID, created, 0, redditUrl, contentTrunc)
 			if err != nil {
 				return nil, handleFailedPostInsert(fmt.Errorf("Retried slug generation, still failed: %v", err))
 			}
@@ -707,6 +710,8 @@ func (db *datastore) CreatePost(userID, collID int64, post *SubmittedPost) (*Pos
 		Updated:      time.Now().Truncate(time.Second).UTC(),
 		Title:        zero.NewString(*(post.Title), true),
 		Content:      *(post.Content),
+		ContentTrunc: contentTrunc,
+		RedditUrl:    redditUrl,
 	}, nil
 }
 
@@ -724,6 +729,14 @@ func (db *datastore) UpdateOwnedPost(post *AuthenticatedPost, userID int64) erro
 		queryUpdates += sep + "content = ?"
 		sep = ", "
 		params = append(params, post.Content)
+
+		queryUpdates += sep + "reddit_url = ?"
+		sep = ", "
+		params = append(params, post.GenerateRedditUrl())
+
+		queryUpdates += sep + "content_trunc = ?"
+		sep = ", "
+		params = append(params, post.TruncateContent())
 	}
 	if post.Title != nil {
 		queryUpdates += sep + "title = ?"
@@ -853,11 +866,14 @@ func (db *datastore) GetCollectionFromDomain(host string) (*Collection, error) {
 
 func (db *datastore) UpdateCollection(c *SubmittedCollection, alias string) error {
 	q := query.NewUpdate().
-		SetStringPtr(c.Title, "title").
 		SetStringPtr(c.Description, "description").
 		SetNullString(c.StyleSheet, "style_sheet").
 		SetNullString(c.Script, "script").
 		SetNullString(c.Signature, "post_signature")
+
+	if c.Title != nil {
+		q = q.SetStringPtr(c.Title, "title")
+	}
 
 	if c.Format != nil {
 		cf := &CollectionFormat{Format: c.Format.String}
@@ -977,7 +993,9 @@ func (db *datastore) UpdateCollection(c *SubmittedCollection, alias string) erro
 	return nil
 }
 
-const postCols = "id, slug, text_appearance, language, rtl, privacy, owner_id, collection_id, pinned_position, created, updated, view_count, title, content"
+const postCols = "id, slug, text_appearance, language, rtl, privacy, owner_id, collection_id, pinned_position, created, updated, view_count, title, content, reddit_url"
+const truncPostCols = "id, slug, text_appearance, language, rtl, privacy, owner_id, collection_id, pinned_position, created, updated, view_count, title, content_trunc, reddit_url"
+
 
 // getEditablePost returns a PublicPost with the given ID only if the given
 // edit token is valid for the post.
@@ -988,7 +1006,7 @@ func (db *datastore) GetEditablePost(id, editToken string) (*PublicPost, error) 
 	p := &Post{}
 
 	row := db.QueryRow("SELECT "+postCols+", (SELECT username FROM users WHERE users.id = posts.owner_id) AS username FROM posts WHERE id = ? LIMIT 1", id)
-	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &ownerName)
+	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &p.RedditUrl, &ownerName)
 	switch {
 	case err == sql.ErrNoRows:
 		return nil, ErrPostNotFound
@@ -1035,7 +1053,7 @@ func (db *datastore) GetPost(id string, collectionID int64) (*PublicPost, error)
 		where = "id = ?"
 	}
 	row = db.QueryRow("SELECT "+postCols+", (SELECT username FROM users WHERE users.id = posts.owner_id) AS username FROM posts WHERE "+where+" LIMIT 1", params...)
-	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &ownerName)
+	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &p.RedditUrl, &ownerName)
 	switch {
 	case err == sql.ErrNoRows:
 		if collectionID > 0 {
@@ -1067,7 +1085,7 @@ func (db *datastore) GetOwnedPost(id string, ownerID int64) (*PublicPost, error)
 	where := "id = ? AND owner_id = ?"
 	params := []interface{}{id, ownerID}
 	row = db.QueryRow("SELECT "+postCols+" FROM posts WHERE "+where+" LIMIT 1", params...)
-	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content)
+	err := row.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &p.RedditUrl)
 	switch {
 	case err == sql.ErrNoRows:
 		return nil, ErrPostNotFound
@@ -1166,7 +1184,7 @@ func (db *datastore) GetPosts(cfg *config.Config, c *Collection, page int, inclu
 	if !includePinned {
 		pinnedCondition = "AND pinned_position IS NULL"
 	}
-	rows, err := db.Query("SELECT "+postCols+" FROM posts WHERE collection_id = ? "+pinnedCondition+" "+timeCondition+" ORDER BY created "+order+limitStr, collID)
+	rows, err := db.Query("SELECT "+truncPostCols+" FROM posts WHERE collection_id = ? "+pinnedCondition+" "+timeCondition+" ORDER BY created "+order+limitStr, collID)
 	if err != nil {
 		log.Error("Failed selecting from posts: %v", err)
 		return nil, impart.HTTPError{http.StatusInternalServerError, "Couldn't retrieve collection posts."}
@@ -1177,7 +1195,7 @@ func (db *datastore) GetPosts(cfg *config.Config, c *Collection, page int, inclu
 	posts := []PublicPost{}
 	for rows.Next() {
 		p := &Post{}
-		err = rows.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content)
+		err = rows.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &p.RedditUrl)
 		if err != nil {
 			log.Error("Failed scanning row: %v", err)
 			break
@@ -1242,7 +1260,7 @@ func (db *datastore) GetPostsTagged(cfg *config.Config, c *Collection, tag strin
 	posts := []PublicPost{}
 	for rows.Next() {
 		p := &Post{}
-		err = rows.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content)
+		err = rows.Scan(&p.ID, &p.Slug, &p.Font, &p.Language, &p.RTL, &p.Privacy, &p.OwnerID, &p.CollectionID, &p.PinnedPosition, &p.Created, &p.Updated, &p.ViewCount, &p.Title, &p.Content, &p.RedditUrl)
 		if err != nil {
 			log.Error("Failed scanning row: %v", err)
 			break

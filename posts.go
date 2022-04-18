@@ -52,6 +52,10 @@ const (
 	shortCodePaid = "<!--paid-->"
 )
 
+var (
+	redditUrlReg = regexp.MustCompile(`\[//\]: <> \(.*Reddit URL.*{(.*)}.*\)`)
+)
+
 type (
 	AnonymousPost struct {
 		ID          string
@@ -114,6 +118,9 @@ type (
 		IsPaid         bool          `json:"paid"`
 
 		OwnerName string `json:"owner,omitempty"`
+
+		RedditUrl string
+		ContentTrunc string
 	}
 
 	// PublicPost holds properties for a publicly returned post, i.e. a post in
@@ -222,6 +229,40 @@ func (p *Post) FormattedDisplayTitle() template.HTML {
 		return p.HTMLTitle
 	}
 	return template.HTML(p.DisplayTitle())
+}
+
+func (p *SubmittedPost) GenerateRedditUrl() string {
+	match := redditUrlReg.FindStringSubmatch(*p.Content)
+	if len(match) < 2 {
+		return ""
+	}
+	u, err := url.ParseRequestURI(match[1])
+	if err != nil {
+		return ""
+	}
+	if u.Host[len(u.Host)-10:] != "reddit.com" {
+		return ""
+	}
+
+	r := ""
+	path := u.Path[1:]
+	ix := strings.IndexRune(path, '/')
+	i := 0
+	for ix != -1 && i < 4 {
+		r += "/" + path[:ix]
+		path = path[ix+1:]
+		ix = strings.IndexRune(path, '/')
+		i += 1
+	}
+
+	return "reddit.com" + r
+}
+
+func (p *SubmittedPost) TruncateContent() string {
+	if len(*p.Content) <= 3000 {
+		return *p.Content;
+	}
+	return (*p.Content)[:3000]
 }
 
 // Summary gives a shortened summary of the post based on the post's title,

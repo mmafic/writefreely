@@ -15,12 +15,14 @@ import (
 	"github.com/writeas/web-core/stringmanip"
 	"regexp"
 	"strings"
+	"net/url"
 )
 
 var (
 	titleElementReg = regexp.MustCompile("</?p>")
 	urlReg          = regexp.MustCompile("https?://")
 	imgReg          = regexp.MustCompile(`!\[([^]]+)\]\([^)]+\)`)
+	redditUrlReg    = regexp.MustCompile(`\[//\]: <> \(.*Reddit URL.*{(.*)}.*\)`)
 )
 
 // PostLede attempts to extract the first thought of the given post, generally
@@ -64,6 +66,27 @@ func PostLede(t string, includePunc bool) string {
 	}
 
 	return t
+}
+
+func PostRedditUrl(t string) string {
+	match := redditUrlReg.FindStringSubmatch(t)
+	if len(match) < 2 { return "" }
+	u, err := url.ParseRequestURI(match[1])
+	if err != nil { return "" }
+	if (u.Host[len(u.Host)-10:] != "reddit.com") { return "" }
+
+	r := ""
+	p := u.Path[1:]
+	ix := strings.IndexRune(p, '/')
+	i := 0
+	for ix != -1 && i < 4 {
+	  r += "/" + p[:ix]
+	  p = p[ix+1:]
+	  ix = strings.IndexRune(p, '/')
+	  i += 1
+	}
+
+	return "reddit.com" + r
 }
 
 // TruncToWord truncates the given text to the provided limit.
