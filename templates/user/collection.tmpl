@@ -40,7 +40,7 @@ textarea.section.norm {
 <form name="customize-form" action="/api/collections/{{.Alias}}" method="post" onsubmit="return disableSubmit()">
 <div id="collection-options">
 	<div style="text-align:center">
-		<h1><input type="text" name="title" id="title" value="{{.DisplayTitle}}" placeholder="Title" /></h1>
+		<h1><input disabled type="text" name="title" id="title" value="{{.DisplayTitle}}" placeholder="Title" /></h1>
 		<p><input type="text" name="description" id="description" value="{{.Description}}" placeholder="Description" /></p>
 	</div>
 
@@ -54,69 +54,6 @@ textarea.section.norm {
 				</li>
 				<li>
 					<strong id="normal-handle-env" class="fedi-handle" {{if not .Federation}}style="display:none"{{end}}>@<span id="fedi-handle">{{.Alias}}</span>@<span id="fedi-domain">{{.FriendlyHost}}</span></strong>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="option">
-		<h2>Publicity</h2>
-		<div class="section">
-			<ul style="list-style:none">
-				<li>
-					<label><input type="radio" name="visibility" id="visibility-unlisted" value="0" {{if .IsUnlisted}}checked="checked"{{end}} />
-						Unlisted
-					</label>
-					<p>This storybin is visible to {{if .Private}}any registered user on this instance{{else}}anyone with its link{{end}}.</p>
-				</li>
-				<li>
-				<label class="option-text"><input type="radio" name="visibility" id="visibility-private" value="2" {{if .IsPrivate}}checked="checked"{{end}} />
-						Private
-					</label>
-					<p>Only you may read this storybin (while you're logged in).</p>
-				</li>
-				<li>
-					<label class="option-text"><input type="radio" name="visibility" id="visibility-protected" value="4" {{if .IsProtected}}checked="checked"{{end}} />
-						Password-protected: <input type="password" class="low-profile" name="password" id="collection-pass" autocomplete="new-password" placeholder="{{if .IsProtected}}xxxxxxxxxxxxxxxx{{else}}a memorable password{{end}}" />
-					</label>
-					<p>A password is required to read this storybin.</p>
-				</li>
-				{{if not .SingleUser}}
-				<li>
-					<label class="option-text{{if not .LocalTimeline}} disabled{{end}}"><input type="radio" name="visibility" id="visibility-public" value="1" {{if .IsPublic}}checked="checked"{{end}} {{if not .LocalTimeline}}disabled="disabled"{{end}} />
-						Public
-					</label>
-					{{if .LocalTimeline}}<p>This storybin is displayed on the public <a href="/read">reader</a>, and is visible to {{if .Private}}any registered user on this instance{{else}}anyone with its link{{end}}.</p>
-					{{else}}<p>The public reader is currently turned off for this community.</p>{{end}}
-				</li>
-				{{end}}
-			</ul>
-		</div>
-	</div>
-
-	<div class="option">
-		<h2>Display Format</h2>
-		<div class="section">
-			<p class="explain">Customize how your stories display on your page.
-			</p>
-			<ul style="list-style:none">
-				<li>
-					<label><input type="radio" name="format" id="format-blog" value="blog" {{if or (not .Format) (eq .Format "blog")}}checked="checked"{{end}} />
-						Blog
-					</label>
-					<p>Dates are shown. Latest stories listed first.</p>
-				</li>
-				<li>
-					<label class="option-text"><input type="radio" name="format" id="format-novel" value="novel" {{if eq .Format "novel"}}checked="checked"{{end}} />
-						Novel
-					</label>
-					<p>No dates shown. Oldest stories first.</p>
-				</li>
-				<li>
-					<label class="option-text"><input type="radio" name="format" id="format-notebook" value="notebook" {{if eq .Format "notebook"}}checked="checked"{{end}} />
-						Notebook
-					</label>
-					<p>No dates shown. Latest stories first.</p>
 				</li>
 			</ul>
 		</div>

@@ -1075,6 +1075,11 @@ func existingCollection(app *App, w http.ResponseWriter, r *http.Request) error 
 		}
 	}
 
+	// Remove fields we don't allow updating
+	c.Title = nil
+	c.Format = nil
+	c.Visibility = nil
+
 	err = app.db.UpdateCollection(&c, collAlias)
 	if err != nil {
 		if err, ok := err.(impart.HTTPError); ok {
