@@ -132,7 +132,7 @@ var H = {
 		var val = localStorage.getItem(key);
 		if (onlyLoadPopulated && val == null) {
 			// Do nothing
-			return true;
+			return 'notfound';
 		}
 		$el.el.value = val;
 		if (postUpdated != null) {
