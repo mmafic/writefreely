@@ -405,10 +405,10 @@ func login(app *App, w http.ResponseWriter, r *http.Request) error {
 	var err error
 	var signin userCredentials
 
-	if app.cfg.App.DisablePasswordAuth {
-		err := ErrDisabledPasswordAuth
-		return err
-	}
+	// if app.cfg.App.DisablePasswordAuth {
+	// 	err := ErrDisabledPasswordAuth
+	// 	return err
+	// }
 
 	// Log in with one-time token if one is given
 	if oneTimeToken != "" {
